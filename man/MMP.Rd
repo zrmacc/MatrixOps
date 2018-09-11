@@ -12,7 +12,7 @@ MMP(A, B)
 \item{B}{Numeric matrix.}
 }
 \value{
-A numeric matrix.
+Numeric matrix.
 }
 \description{
 Calculates the product \eqn{AB}.

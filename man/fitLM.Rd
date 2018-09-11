@@ -12,7 +12,7 @@ fitLM(y, X)
 \item{X}{Model matrix.}
 }
 \value{
-A list containing the following:
+List containing the following:
 \item{Beta}{Regression coefficient.}
 \item{V}{Outcome variance.}
 \item{Ibb}{Information matrix for beta.}

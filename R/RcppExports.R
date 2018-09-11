@@ -9,7 +9,7 @@
 #' @param X Model matrix.
 #' @export 
 #' 
-#' @return A list containing the following:
+#' @return List containing the following:
 #' \item{Beta}{Regression coefficient.}
 #' \item{V}{Outcome variance.}
 #' \item{Ibb}{Information matrix for beta.}
@@ -24,7 +24,7 @@ fitLM <- function(y, X) {
 #' Calculates the trace of a matrix \eqn{A}.
 #'
 #' @param A Numeric matrix.
-#' @return A scalar.
+#' @return Scalar.
 #' @export  
 tr <- function(A) {
     .Call('_MatrixOps_tr', PACKAGE = 'MatrixOps', A)
@@ -36,7 +36,7 @@ tr <- function(A) {
 #'
 #' @param A Numeric matrix.
 #' @param B Numeric matrix.
-#' @return A numeric matrix. 
+#' @return Numeric matrix. 
 #' @export 
 MMP <- function(A, B) {
     .Call('_MatrixOps_MMP', PACKAGE = 'MatrixOps', A, B)

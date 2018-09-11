@@ -6,7 +6,7 @@
 //' Calculates the trace of a matrix \eqn{A}.
 //'
 //' @param A Numeric matrix.
-//' @return A scalar.
+//' @return Scalar.
 //' @export  
 // [[Rcpp::export]]
 SEXP tr(const Eigen::Map<Eigen::MatrixXd> A){
@@ -20,7 +20,7 @@ SEXP tr(const Eigen::Map<Eigen::MatrixXd> A){
 //'
 //' @param A Numeric matrix.
 //' @param B Numeric matrix.
-//' @return A numeric matrix. 
+//' @return Numeric matrix. 
 //' @export 
 // [[Rcpp::export]]
 SEXP MMP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B){

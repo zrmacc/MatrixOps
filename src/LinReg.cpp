@@ -9,7 +9,7 @@
 //' @param X Model matrix.
 //' @export 
 //' 
-//' @return A list containing the following:
+//' @return List containing the following:
 //' \item{Beta}{Regression coefficient.}
 //' \item{V}{Outcome variance.}
 //' \item{Ibb}{Information matrix for beta.}
