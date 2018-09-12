@@ -1,6 +1,28 @@
 // [[Rcpp::depends(RcppEigen)]]
 #include <RcppEigen.h>
 
+//' Linear Projection
+//' 
+//' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
+//' and the projection onto the orthogonal complement of the image. 
+//' 
+//' @param X Numeric matrix.
+//' @param Y Numeric matrix.
+//' @export
+//' 
+//' @return List containing the following:
+//' \item{Coord}{Coordinates of the projection w.r.t. X.}
+//' \item{Para}{Projection onto the image of X.}
+//' \item{Ortho}{Projection onto the orthogonal complement.}
+// [[Rcpp::export]]
+
+SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::MatrixXd> Y){
+  const Eigen::MatrixXd B=(X.transpose()*X).ldlt().solve(X.transpose()*Y);
+  const Eigen::MatrixXd P=X*B;
+  const Eigen::MatrixXd Q=Y-P;
+  return Rcpp::List::create(Rcpp::Named("Coord")=B,Rcpp::Named("Para")=P,Rcpp::Named("Ortho")=Q);
+}
+
 //' Univariate OLS model.
 //' 
 //' Fits the standard OLS model.
@@ -17,7 +39,7 @@
 //' 
 // [[Rcpp::export]]
 
-SEXP fitLM(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X){
+SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X){
   // Observations
   const int n = y.size();
   // Estimated parameters

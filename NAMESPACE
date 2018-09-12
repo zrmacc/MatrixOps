@@ -2,8 +2,10 @@
 
 export(MMP)
 export(SchurC)
+export(cov)
 export(det)
-export(fitLM)
+export(fitOLS)
+export(linProj)
 export(matIP)
 export(matInv)
 export(matOP)

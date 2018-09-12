@@ -6,15 +6,40 @@
 
 using namespace Rcpp;
 
-// fitLM
-SEXP fitLM(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X);
-RcppExport SEXP _MatrixOps_fitLM(SEXP ySEXP, SEXP XSEXP) {
+// cov
+SEXP cov(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B, const bool cor);
+RcppExport SEXP _MatrixOps_cov(SEXP ASEXP, SEXP BSEXP, SEXP corSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type B(BSEXP);
+    Rcpp::traits::input_parameter< const bool >::type cor(corSEXP);
+    rcpp_result_gen = Rcpp::wrap(cov(A, B, cor));
+    return rcpp_result_gen;
+END_RCPP
+}
+// linProj
+SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::MatrixXd> Y);
+RcppExport SEXP _MatrixOps_linProj(SEXP XSEXP, SEXP YSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type Y(YSEXP);
+    rcpp_result_gen = Rcpp::wrap(linProj(X, Y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fitOLS
+SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X);
+RcppExport SEXP _MatrixOps_fitOLS(SEXP ySEXP, SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd> >::type y(ySEXP);
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type X(XSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitLM(y, X));
+    rcpp_result_gen = Rcpp::wrap(fitOLS(y, X));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -114,7 +139,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_MatrixOps_fitLM", (DL_FUNC) &_MatrixOps_fitLM, 2},
+    {"_MatrixOps_cov", (DL_FUNC) &_MatrixOps_cov, 3},
+    {"_MatrixOps_linProj", (DL_FUNC) &_MatrixOps_linProj, 2},
+    {"_MatrixOps_fitOLS", (DL_FUNC) &_MatrixOps_fitOLS, 2},
     {"_MatrixOps_tr", (DL_FUNC) &_MatrixOps_tr, 1},
     {"_MatrixOps_MMP", (DL_FUNC) &_MatrixOps_MMP, 2},
     {"_MatrixOps_matIP", (DL_FUNC) &_MatrixOps_matIP, 2},
