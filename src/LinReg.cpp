@@ -23,7 +23,7 @@ SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::Matrix
   return Rcpp::List::create(Rcpp::Named("Coord")=B,Rcpp::Named("Para")=P,Rcpp::Named("Ortho")=Q);
 }
 
-//' Univariate OLS model.
+//' Ordinary Least Squares
 //' 
 //' Fits the standard OLS model.
 //' 
@@ -44,7 +44,7 @@ SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
   const int n = y.size();
   // Estimated parameters
   const int p = X.cols();
-  // Gram matrix
+  // Information
   const Eigen::MatrixXd A = X.transpose()*X;
   // Estimate beta
   const Eigen::VectorXd b = A.ldlt().solve(X.transpose()*y);
@@ -66,9 +66,9 @@ SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
 //' \eqn{w_{i}} is a known, subject-specific weight, and \eqn{\sigma} is a
 //' common scale parameter.
 //' 
-//' @param Z Design matrix.
-//' @param w Weight vector.
 //' @param y Response vector.
+//' @param X Design matrix.
+//' @param w Weight vector.
 //' @export
 //' 
 //' @return List containing the following:

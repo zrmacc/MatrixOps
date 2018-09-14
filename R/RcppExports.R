@@ -31,7 +31,7 @@ linProj <- function(X, Y) {
     .Call('_MatrixOps_linProj', PACKAGE = 'MatrixOps', X, Y)
 }
 
-#' Univariate OLS model.
+#' Ordinary Least Squares
 #' 
 #' Fits the standard OLS model.
 #' 
@@ -57,9 +57,9 @@ fitOLS <- function(y, X) {
 #' \eqn{w_{i}} is a known, subject-specific weight, and \eqn{\sigma} is a
 #' common scale parameter.
 #' 
-#' @param Z Design matrix.
-#' @param w Weight vector.
 #' @param y Response vector.
+#' @param X Design matrix.
+#' @param w Weight vector.
 #' @export
 #' 
 #' @return List containing the following:
