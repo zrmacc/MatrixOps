@@ -35,8 +35,8 @@ linProj <- function(X, Y) {
 #' 
 #' Fits the standard OLS model.
 #' 
-#' @param y Outcome.
-#' @param X Model matrix.
+#' @param y Numeric vector.
+#' @param X Numeric matrix.
 #' @export 
 #' 
 #' @return List containing the following:
@@ -49,27 +49,51 @@ fitOLS <- function(y, X) {
     .Call('_MatrixOps_fitOLS', PACKAGE = 'MatrixOps', y, X)
 }
 
-#' Matrix Trace
+#' Weighted Least Squares
+#' 
+#' Fits the following weighted least squares model: 
+#' \eqn{y_{i}=x_{i}'\beta+\epsilon_{i}}. Here, the subject-specific residual is
+#' normally distributed with mean zero and variance \eqn{\sigma^{2}/w_{i}}.
+#' \eqn{w_{i}} is a known, subject-specific weight, and \eqn{\sigma} is a
+#' common scale parameter.
+#' 
+#' @param Z Design matrix.
+#' @param w Weight vector.
+#' @param y Response vector.
+#' @export
+#' 
+#' @return List containing the following:
+#' \item{Beta}{Regression coefficient.}
+#' \item{V}{Outcome variance.}
+#' \item{Ibb}{Information matrix for beta.}
+#' \item{Resid}{Outcome residuals.}
 #'
-#' Calculates the trace of a matrix \eqn{A}.
-#'
-#' @param A Numeric matrix.
-#' @return Scalar.
-#' @export  
-tr <- function(A) {
-    .Call('_MatrixOps_tr', PACKAGE = 'MatrixOps', A)
+fitWLS <- function(y, X, w) {
+    .Call('_MatrixOps_fitWLS', PACKAGE = 'MatrixOps', y, X, w)
 }
 
-#' Matrix Matrix Product
+#' Matrix Determinant
 #'
-#' Calculates the product \eqn{AB}. 
+#' Calculates the determinant of \eqn{A}.
 #'
 #' @param A Numeric matrix.
-#' @param B Numeric matrix.
-#' @return Numeric matrix. 
+#' @return Scalar. 
 #' @export 
-MMP <- function(A, B) {
-    .Call('_MatrixOps_MMP', PACKAGE = 'MatrixOps', A, B)
+det <- function(A) {
+    .Call('_MatrixOps_det', PACKAGE = 'MatrixOps', A)
+}
+
+#' Diagonal Quadratic Form
+#'
+#' Calculates the matrix \eqn{Z'WZ}, where \eqn{W} is a diagonal
+#' matrix. 
+#'
+#' @param Z Design matrix.
+#' @param w Weight vector.
+#' @return Numeric matrix. 
+#'
+diagQF <- function(Z, w) {
+    .Call('_MatrixOps_diagQF', PACKAGE = 'MatrixOps', Z, w)
 }
 
 #' Matrix Inner Product
@@ -95,15 +119,16 @@ matInv <- function(A) {
     .Call('_MatrixOps_matInv', PACKAGE = 'MatrixOps', A)
 }
 
-#' Matrix Determinant
+#' Matrix Matrix Product
 #'
-#' Calculates the determinant of \eqn{A}.
+#' Calculates the product \eqn{AB}. 
 #'
 #' @param A Numeric matrix.
-#' @return Scalar. 
+#' @param B Numeric matrix.
+#' @return Numeric matrix. 
 #' @export 
-det <- function(A) {
-    .Call('_MatrixOps_det', PACKAGE = 'MatrixOps', A)
+MMP <- function(A, B) {
+    .Call('_MatrixOps_MMP', PACKAGE = 'MatrixOps', A, B)
 }
 
 #' Fast Outer Product
@@ -141,5 +166,16 @@ matQF <- function(X, A) {
 #' @export 
 SchurC <- function(Ibb, Iaa, Iba) {
     .Call('_MatrixOps_SchurC', PACKAGE = 'MatrixOps', Ibb, Iaa, Iba)
+}
+
+#' Matrix Trace
+#'
+#' Calculates the trace of a matrix \eqn{A}.
+#'
+#' @param A Numeric matrix.
+#' @return Scalar.
+#' @export  
+tr <- function(A) {
+    .Call('_MatrixOps_tr', PACKAGE = 'MatrixOps', A)
 }
 

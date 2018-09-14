@@ -43,26 +43,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// tr
-SEXP tr(const Eigen::Map<Eigen::MatrixXd> A);
-RcppExport SEXP _MatrixOps_tr(SEXP ASEXP) {
+// fitWLS
+SEXP fitWLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::VectorXd> w);
+RcppExport SEXP _MatrixOps_fitWLS(SEXP ySEXP, SEXP XSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(tr(A));
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd> >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd> >::type w(wSEXP);
+    rcpp_result_gen = Rcpp::wrap(fitWLS(y, X, w));
     return rcpp_result_gen;
 END_RCPP
 }
-// MMP
-SEXP MMP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B);
-RcppExport SEXP _MatrixOps_MMP(SEXP ASEXP, SEXP BSEXP) {
+// det
+SEXP det(const Eigen::Map<Eigen::MatrixXd> A);
+RcppExport SEXP _MatrixOps_det(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(MMP(A, B));
+    rcpp_result_gen = Rcpp::wrap(det(A));
+    return rcpp_result_gen;
+END_RCPP
+}
+// diagQF
+SEXP diagQF(const Eigen::Map<Eigen::MatrixXd> Z, const Eigen::Map<Eigen::VectorXd> w);
+RcppExport SEXP _MatrixOps_diagQF(SEXP ZSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type Z(ZSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd> >::type w(wSEXP);
+    rcpp_result_gen = Rcpp::wrap(diagQF(Z, w));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -89,14 +102,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// det
-SEXP det(const Eigen::Map<Eigen::MatrixXd> A);
-RcppExport SEXP _MatrixOps_det(SEXP ASEXP) {
+// MMP
+SEXP MMP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B);
+RcppExport SEXP _MatrixOps_MMP(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(det(A));
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type B(BSEXP);
+    rcpp_result_gen = Rcpp::wrap(MMP(A, B));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -137,19 +151,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tr
+SEXP tr(const Eigen::Map<Eigen::MatrixXd> A);
+RcppExport SEXP _MatrixOps_tr(SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(tr(A));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_MatrixOps_cov", (DL_FUNC) &_MatrixOps_cov, 3},
     {"_MatrixOps_linProj", (DL_FUNC) &_MatrixOps_linProj, 2},
     {"_MatrixOps_fitOLS", (DL_FUNC) &_MatrixOps_fitOLS, 2},
-    {"_MatrixOps_tr", (DL_FUNC) &_MatrixOps_tr, 1},
-    {"_MatrixOps_MMP", (DL_FUNC) &_MatrixOps_MMP, 2},
+    {"_MatrixOps_fitWLS", (DL_FUNC) &_MatrixOps_fitWLS, 3},
+    {"_MatrixOps_det", (DL_FUNC) &_MatrixOps_det, 1},
+    {"_MatrixOps_diagQF", (DL_FUNC) &_MatrixOps_diagQF, 2},
     {"_MatrixOps_matIP", (DL_FUNC) &_MatrixOps_matIP, 2},
     {"_MatrixOps_matInv", (DL_FUNC) &_MatrixOps_matInv, 1},
-    {"_MatrixOps_det", (DL_FUNC) &_MatrixOps_det, 1},
+    {"_MatrixOps_MMP", (DL_FUNC) &_MatrixOps_MMP, 2},
     {"_MatrixOps_matOP", (DL_FUNC) &_MatrixOps_matOP, 2},
     {"_MatrixOps_matQF", (DL_FUNC) &_MatrixOps_matQF, 2},
     {"_MatrixOps_SchurC", (DL_FUNC) &_MatrixOps_SchurC, 3},
+    {"_MatrixOps_tr", (DL_FUNC) &_MatrixOps_tr, 1},
     {NULL, NULL, 0}
 };
 

@@ -7,9 +7,9 @@
 fitOLS(y, X)
 }
 \arguments{
-\item{y}{Outcome.}
+\item{y}{Numeric vector.}
 
-\item{X}{Model matrix.}
+\item{X}{Numeric matrix.}
 }
 \value{
 List containing the following:

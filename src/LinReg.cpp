@@ -27,8 +27,8 @@ SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::Matrix
 //' 
 //' Fits the standard OLS model.
 //' 
-//' @param y Outcome.
-//' @param X Model matrix.
+//' @param y Numeric vector.
+//' @param X Numeric matrix.
 //' @export 
 //' 
 //' @return List containing the following:
@@ -45,15 +45,66 @@ SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
   // Estimated parameters
   const int p = X.cols();
   // Gram matrix
-  const Eigen::MatrixXd XtX = X.transpose()*X;
+  const Eigen::MatrixXd A = X.transpose()*X;
   // Estimate beta
-  const Eigen::VectorXd b = (XtX).ldlt().solve(X.transpose()*y);
+  const Eigen::VectorXd b = A.ldlt().solve(X.transpose()*y);
   // Calculate residuals
   const Eigen::VectorXd eps = (y-X*b);
   // Scale
   const double qf = (eps.transpose()*eps);
   const double v = qf/(n-p);
   // Information
-  const Eigen::MatrixXd Ibb = XtX/v;
+  const Eigen::MatrixXd Ibb = A/v;
+  return Rcpp::List::create(Rcpp::Named("Beta")=b,Rcpp::Named("V")=v,Rcpp::Named("Ibb")=Ibb,Rcpp::Named("Resid")=eps);
+}
+
+//' Weighted Least Squares
+//' 
+//' Fits the following weighted least squares model: 
+//' \eqn{y_{i}=x_{i}'\beta+\epsilon_{i}}. Here, the subject-specific residual is
+//' normally distributed with mean zero and variance \eqn{\sigma^{2}/w_{i}}.
+//' \eqn{w_{i}} is a known, subject-specific weight, and \eqn{\sigma} is a
+//' common scale parameter.
+//' 
+//' @param Z Design matrix.
+//' @param w Weight vector.
+//' @param y Response vector.
+//' @export
+//' 
+//' @return List containing the following:
+//' \item{Beta}{Regression coefficient.}
+//' \item{V}{Outcome variance.}
+//' \item{Ibb}{Information matrix for beta.}
+//' \item{Resid}{Outcome residuals.}
+//'
+// [[Rcpp::export]]
+SEXP fitWLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X, 
+            const Eigen::Map<Eigen::VectorXd> w){
+  // Observations
+  const int n = y.size();
+  // Estimated parameters
+  const int p = X.cols();
+  // Calculate A=X'WX 
+  Eigen::MatrixXd A = Eigen::MatrixXd::Constant(p,p,0);
+  for(int i=0; i<n; i++){
+    A += X.row(i).transpose()*w(i)*X.row(i);
+  };
+  // Calculate b=X'Wy
+  Eigen::VectorXd u = Eigen::VectorXd::Constant(p,0);
+  for(int i=0; i<n; i++){
+    u += X.row(i).transpose()*w(i)*y(i);
+  };
+  // Estimate beta
+  const Eigen::VectorXd b = A.ldlt().solve(u);
+  // Calculate residuals
+  const Eigen::VectorXd eps = (y-X*b);
+  // Scale
+  double qf = 0;
+  for(int i=0; i<n; i++){
+    qf += eps(i)*w(i)*w(i)*eps(i);
+  }
+  const double v = qf/(n-p);
+  // Information
+  const Eigen::MatrixXd Ibb = A/v;
   return Rcpp::List::create(Rcpp::Named("Beta")=b,Rcpp::Named("V")=v,Rcpp::Named("Ibb")=Ibb,Rcpp::Named("Resid")=eps);
 }

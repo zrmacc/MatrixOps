@@ -1,31 +1,40 @@
 // [[Rcpp::depends(RcppEigen)]]
 #include <RcppEigen.h>
 
-//' Matrix Trace
+//' Matrix Determinant
 //'
-//' Calculates the trace of a matrix \eqn{A}.
-//'
-//' @param A Numeric matrix.
-//' @return Scalar.
-//' @export  
-// [[Rcpp::export]]
-SEXP tr(const Eigen::Map<Eigen::MatrixXd> A){
-  const double t = A.diagonal().sum();
-  return Rcpp::wrap(t);
-}
-
-//' Matrix Matrix Product
-//'
-//' Calculates the product \eqn{AB}. 
+//' Calculates the determinant of \eqn{A}.
 //'
 //' @param A Numeric matrix.
-//' @param B Numeric matrix.
-//' @return Numeric matrix. 
+//' @return Scalar. 
 //' @export 
 // [[Rcpp::export]]
-SEXP MMP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B){
-  const Eigen::MatrixXd C = A*B;
-  return Rcpp::wrap(C);
+SEXP det(const Eigen::Map<Eigen::MatrixXd> A){
+  const double d = A.determinant();
+  return Rcpp::wrap(d);
+}
+
+//' Diagonal Quadratic Form
+//'
+//' Calculates the matrix \eqn{Z'WZ}, where \eqn{W} is a diagonal
+//' matrix. 
+//'
+//' @param Z Design matrix.
+//' @param w Weight vector.
+//' @return Numeric matrix. 
+//'
+// [[Rcpp::export]]
+SEXP diagQF(const Eigen::Map<Eigen::MatrixXd> Z, const Eigen::Map<Eigen::VectorXd> w){
+  // Dimensions
+  const int n = Z.rows();
+  const int p = Z.cols();
+  // Calculate A=Z'WZ
+  Eigen::MatrixXd A(p,p);
+  A.setZero();
+  for(int i=0; i<n; i++){
+    A += Z.row(i).transpose()*w(i)*Z.row(i);
+  };
+  return Rcpp::wrap(A);
 }
 
 //' Matrix Inner Product
@@ -55,17 +64,18 @@ SEXP matInv(const Eigen::Map<Eigen::MatrixXd> A){
   return Rcpp::wrap(Ai);
 }
 
-//' Matrix Determinant
+//' Matrix Matrix Product
 //'
-//' Calculates the determinant of \eqn{A}.
+//' Calculates the product \eqn{AB}. 
 //'
 //' @param A Numeric matrix.
-//' @return Scalar. 
+//' @param B Numeric matrix.
+//' @return Numeric matrix. 
 //' @export 
 // [[Rcpp::export]]
-SEXP det(const Eigen::Map<Eigen::MatrixXd> A){
-  const double d = A.determinant();
-  return Rcpp::wrap(d);
+SEXP MMP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B){
+  const Eigen::MatrixXd C = A*B;
+  return Rcpp::wrap(C);
 }
 
 //' Fast Outer Product
@@ -111,4 +121,17 @@ SEXP SchurC(const Eigen::Map<Eigen::MatrixXd> Ibb, const Eigen::Map<Eigen::Matri
   // Kernel matrix
   const Eigen::MatrixXd E = Ibb-(Iba*(Iaa.ldlt().solve(Iba.transpose())));
   return Rcpp::wrap(E);
+}
+
+//' Matrix Trace
+//'
+//' Calculates the trace of a matrix \eqn{A}.
+//'
+//' @param A Numeric matrix.
+//' @return Scalar.
+//' @export  
+// [[Rcpp::export]]
+SEXP tr(const Eigen::Map<Eigen::MatrixXd> A){
+  const double t = A.diagonal().sum();
+  return Rcpp::wrap(t);
 }
