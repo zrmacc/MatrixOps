@@ -67,18 +67,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// diagQF
-SEXP diagQF(const Eigen::Map<Eigen::MatrixXd> Z, const Eigen::Map<Eigen::VectorXd> w);
-RcppExport SEXP _MatrixOps_diagQF(SEXP ZSEXP, SEXP wSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type Z(ZSEXP);
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd> >::type w(wSEXP);
-    rcpp_result_gen = Rcpp::wrap(diagQF(Z, w));
-    return rcpp_result_gen;
-END_RCPP
-}
 // matIP
 SEXP matIP(const Eigen::Map<Eigen::MatrixXd> A, const Eigen::Map<Eigen::MatrixXd> B);
 RcppExport SEXP _MatrixOps_matIP(SEXP ASEXP, SEXP BSEXP) {
@@ -169,7 +157,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_MatrixOps_fitOLS", (DL_FUNC) &_MatrixOps_fitOLS, 2},
     {"_MatrixOps_fitWLS", (DL_FUNC) &_MatrixOps_fitWLS, 3},
     {"_MatrixOps_det", (DL_FUNC) &_MatrixOps_det, 1},
-    {"_MatrixOps_diagQF", (DL_FUNC) &_MatrixOps_diagQF, 2},
     {"_MatrixOps_matIP", (DL_FUNC) &_MatrixOps_matIP, 2},
     {"_MatrixOps_matInv", (DL_FUNC) &_MatrixOps_matInv, 1},
     {"_MatrixOps_MMP", (DL_FUNC) &_MatrixOps_MMP, 2},

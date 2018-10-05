@@ -9,9 +9,9 @@ fitWLS(y, X, w)
 \arguments{
 \item{y}{Response vector.}
 
-\item{w}{Weight vector.}
+\item{X}{Design matrix.}
 
-\item{Z}{Design matrix.}
+\item{w}{Weight vector.}
 }
 \value{
 List containing the following:

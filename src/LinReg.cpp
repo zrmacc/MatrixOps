@@ -89,7 +89,7 @@ SEXP fitWLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
   for(int i=0; i<n; i++){
     A += X.row(i).transpose()*w(i)*X.row(i);
   };
-  // Calculate b=X'Wy
+  // Calculate u=X'Wy
   Eigen::VectorXd u = Eigen::VectorXd::Constant(p,0);
   for(int i=0; i<n; i++){
     u += X.row(i).transpose()*w(i)*y(i);

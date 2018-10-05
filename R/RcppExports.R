@@ -83,19 +83,6 @@ det <- function(A) {
     .Call('_MatrixOps_det', PACKAGE = 'MatrixOps', A)
 }
 
-#' Diagonal Quadratic Form
-#'
-#' Calculates the matrix \eqn{Z'WZ}, where \eqn{W} is a diagonal
-#' matrix. 
-#'
-#' @param Z Design matrix.
-#' @param w Weight vector.
-#' @return Numeric matrix. 
-#'
-diagQF <- function(Z, w) {
-    .Call('_MatrixOps_diagQF', PACKAGE = 'MatrixOps', Z, w)
-}
-
 #' Matrix Inner Product
 #'
 #' Calculates the product \eqn{A'B}.

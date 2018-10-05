@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{fitOLS}
 \alias{fitOLS}
-\title{Univariate OLS model.}
+\title{Ordinary Least Squares}
 \usage{
 fitOLS(y, X)
 }

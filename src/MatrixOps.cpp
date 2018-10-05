@@ -14,29 +14,6 @@ SEXP det(const Eigen::Map<Eigen::MatrixXd> A){
   return Rcpp::wrap(d);
 }
 
-//' Diagonal Quadratic Form
-//'
-//' Calculates the matrix \eqn{Z'WZ}, where \eqn{W} is a diagonal
-//' matrix. 
-//'
-//' @param Z Design matrix.
-//' @param w Weight vector.
-//' @return Numeric matrix. 
-//'
-// [[Rcpp::export]]
-SEXP diagQF(const Eigen::Map<Eigen::MatrixXd> Z, const Eigen::Map<Eigen::VectorXd> w){
-  // Dimensions
-  const int n = Z.rows();
-  const int p = Z.cols();
-  // Calculate A=Z'WZ
-  Eigen::MatrixXd A(p,p);
-  A.setZero();
-  for(int i=0; i<n; i++){
-    A += Z.row(i).transpose()*w(i)*Z.row(i);
-  };
-  return Rcpp::wrap(A);
-}
-
 //' Matrix Inner Product
 //'
 //' Calculates the product \eqn{A'B}.
