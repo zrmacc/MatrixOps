@@ -1,25 +1,23 @@
-// [[Rcpp::depends(RcppEigen)]]
-#include <RcppEigen.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
 
-//' Linear Projection
+//' Projection Decomposition
 //' 
 //' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
 //' and the projection onto the orthogonal complement of the image. 
 //' 
-//' @param X Numeric matrix.
-//' @param Y Numeric matrix.
-//' @export
-//' 
+//' @param NxP X Numeric matrix.
+//' @param NxQ Y Numeric matrix.
 //' @return List containing the following:
 //' \item{Coord}{Coordinates of the projection w.r.t. X.}
 //' \item{Para}{Projection onto the image of X.}
 //' \item{Ortho}{Projection onto the orthogonal complement.}
 // [[Rcpp::export]]
 
-SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::MatrixXd> Y){
-  const Eigen::MatrixXd B=(X.transpose()*X).ldlt().solve(X.transpose()*Y);
-  const Eigen::MatrixXd P=X*B;
-  const Eigen::MatrixXd Q=Y-P;
+SEXP projDecomp(const arma::mat X, const arma::mat Y){
+  const arma::mat B = arma::solve(X.t()*X,X.t()*Y,arma::solve_opts::likely_sympd);
+  const arma::mat P = X*B;
+  const arma::mat Q = Y-P;
   return Rcpp::List::create(Rcpp::Named("Coord")=B,Rcpp::Named("Para")=P,Rcpp::Named("Ortho")=Q);
 }
 
@@ -27,34 +25,31 @@ SEXP linProj(const Eigen::Map<Eigen::MatrixXd> X, const Eigen::Map<Eigen::Matrix
 //' 
 //' Fits the standard OLS model.
 //' 
-//' @param y Numeric vector.
-//' @param X Numeric matrix.
-//' @export 
+//' @param y Nx1 Numeric vector.
+//' @param X NxP Numeric matrix.
 //' 
 //' @return List containing the following:
 //' \item{Beta}{Regression coefficient.}
 //' \item{V}{Outcome variance.}
 //' \item{Ibb}{Information matrix for beta.}
 //' \item{Resid}{Outcome residuals.}
-//' 
+//' @export
 // [[Rcpp::export]]
-
-SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X){
+SEXP fitOLS(const arma::colvec y, const arma::mat X){
   // Observations
   const int n = y.size();
   // Estimated parameters
-  const int p = X.cols();
+  const int p = X.n_cols;
   // Information
-  const Eigen::MatrixXd A = X.transpose()*X;
+  const arma::mat A = X.t()*X;
   // Estimate beta
-  const Eigen::VectorXd b = A.ldlt().solve(X.transpose()*y);
+  const arma::vec b = arma::solve(A,X.t()*y,arma::solve_opts::likely_sympd);
   // Calculate residuals
-  const Eigen::VectorXd eps = (y-X*b);
+  const arma::vec eps = (y-X*b);
   // Scale
-  const double qf = (eps.transpose()*eps);
-  const double v = qf/(n-p);
+  const double v = arma::as_scalar(eps.t()*eps/(n-p));
   // Information
-  const Eigen::MatrixXd Ibb = A/v;
+  const arma::mat Ibb = A/v;
   return Rcpp::List::create(Rcpp::Named("Beta")=b,Rcpp::Named("V")=v,Rcpp::Named("Ibb")=Ibb,Rcpp::Named("Resid")=eps);
 }
 
@@ -66,9 +61,9 @@ SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
 //' \eqn{w_{i}} is a known, subject-specific weight, and \eqn{\sigma} is a
 //' common scale parameter.
 //' 
-//' @param y Response vector.
-//' @param X Design matrix.
-//' @param w Weight vector.
+//' @param y Nx1 Response vector.
+//' @param X NxP Design matrix.
+//' @param w Nx1 Weight vector.
 //' @export
 //' 
 //' @return List containing the following:
@@ -78,33 +73,35 @@ SEXP fitOLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixX
 //' \item{Resid}{Outcome residuals.}
 //'
 // [[Rcpp::export]]
-SEXP fitWLS(const Eigen::Map<Eigen::VectorXd> y, const Eigen::Map<Eigen::MatrixXd> X, 
-            const Eigen::Map<Eigen::VectorXd> w){
-  // Observations
-  const int n = y.size();
-  // Estimated parameters
-  const int p = X.cols();
-  // Calculate A=X'WX 
-  Eigen::MatrixXd A = Eigen::MatrixXd::Constant(p,p,0);
-  for(int i=0; i<n; i++){
-    A += X.row(i).transpose()*w(i)*X.row(i);
-  };
-  // Calculate u=X'Wy
-  Eigen::VectorXd u = Eigen::VectorXd::Constant(p,0);
-  for(int i=0; i<n; i++){
-    u += X.row(i).transpose()*w(i)*y(i);
-  };
-  // Estimate beta
-  const Eigen::VectorXd b = A.ldlt().solve(u);
-  // Calculate residuals
-  const Eigen::VectorXd eps = (y-X*b);
-  // Scale
+SEXP fitWLS(const arma::vec y, const arma::mat X, const arma::vec w){
+  // Dimensions
+  const int n = X.n_rows;
+  const int p = X.n_cols;
+  // Initialize
   double qf = 0;
-  for(int i=0; i<n; i++){
+  arma::mat A(p,p);
+  A.zeros();
+  arma::vec u(p);
+  u.zeros();
+  // ** Calculation
+  // A = X'WX;
+  for(int i=0;i<n;i++){
+    A += w(i)*X.row(i)*X.row(i).t();
+  }
+  // u = X'Wy;
+  for(int i=0;i<n;i++){
+    u += X.row(i).t()*w(i)*y(i);
+  }
+  // Estimate beta
+  const arma::vec b = arma::solve(A,u,arma::solve_opts::likely_sympd);
+  // Calculate residuals
+  const arma::vec eps = (y-X*b);
+  // Scale
+  for(int i=0;i<n;i++){
     qf += eps(i)*w(i)*w(i)*eps(i);
   }
   const double v = qf/(n-p);
   // Information
-  const Eigen::MatrixXd Ibb = A/v;
+  const arma::mat Ibb = A/v;
   return Rcpp::List::create(Rcpp::Named("Beta")=b,Rcpp::Named("V")=v,Rcpp::Named("Ibb")=Ibb,Rcpp::Named("Resid")=eps);
 }

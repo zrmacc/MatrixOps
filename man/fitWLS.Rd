@@ -7,11 +7,11 @@
 fitWLS(y, X, w)
 }
 \arguments{
-\item{y}{Response vector.}
+\item{y}{Nx1 Response vector.}
 
-\item{X}{Design matrix.}
+\item{X}{NxP Design matrix.}
 
-\item{w}{Weight vector.}
+\item{w}{Nx1 Weight vector.}
 }
 \value{
 List containing the following:
