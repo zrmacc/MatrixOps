@@ -1,4 +1,5 @@
 Package: MatrixOps
+Date: 19/09/02
 Title: Matrix Operations
 Version: 0.0.2
 Authors@R: person("Zachary", "McCaw", email = "zmccaw@alumni.harvard.edu", role = c("aut", "cre"))

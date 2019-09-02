@@ -102,8 +102,7 @@ SEXP matQF(const arma::mat X, const arma::mat A){
 // [[Rcpp::export]]
 SEXP SchurC(const arma::mat Ibb, const arma::mat Iaa,
             const arma::mat Iba){
-  arma::mat Ibba;
-  Ibba = Ibb-Iba*arma::solve(Iaa,Iba.t(),arma::solve_opts::likely_sympd);
+  const arma::mat Ibba = Ibb-Iba*arma::solve(Iaa,Iba.t(),arma::solve_opts::likely_sympd);
   return Rcpp::wrap(Ibba);
 }
 
