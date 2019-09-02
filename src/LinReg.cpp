@@ -6,8 +6,8 @@
 //' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
 //' and the projection onto the orthogonal complement of the image. 
 //' 
-//' @param NxP X Numeric matrix.
-//' @param NxQ Y Numeric matrix.
+//' @param X NxP Numeric matrix.
+//' @param Y NxQ Numeric matrix.
 //' @return List containing the following:
 //' \item{Coord}{Coordinates of the projection w.r.t. X.}
 //' \item{Para}{Projection onto the image of X.}

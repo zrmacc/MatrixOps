@@ -6,7 +6,7 @@
 \alias{MatrixOps-package}
 \title{MatrixOps: Matrix Operations}
 \description{
-Package to store matrix operations implemented in Rcpp.
+Package to store matrix operations implemented in RcppArmadillo.
 }
 \author{
 Zachary R. McCaw

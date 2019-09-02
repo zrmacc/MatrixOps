@@ -11,7 +11,7 @@
 #' @export
 #' @return Numeric matrix. 
 matCov <- function(A, B, corMat = FALSE) {
-    .Call('_MatrixOps_matCov', PACKAGE = 'MatrixOps', A, B, corMat)
+    .Call(`_MatrixOps_matCov`, A, B, corMat)
 }
 
 #' Projection Decomposition
@@ -19,14 +19,14 @@ matCov <- function(A, B, corMat = FALSE) {
 #' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
 #' and the projection onto the orthogonal complement of the image. 
 #' 
-#' @param NxP X Numeric matrix.
-#' @param NxQ Y Numeric matrix.
+#' @param X NxP Numeric matrix.
+#' @param Y NxQ Numeric matrix.
 #' @return List containing the following:
 #' \item{Coord}{Coordinates of the projection w.r.t. X.}
 #' \item{Para}{Projection onto the image of X.}
 #' \item{Ortho}{Projection onto the orthogonal complement.}
 projDecomp <- function(X, Y) {
-    .Call('_MatrixOps_projDecomp', PACKAGE = 'MatrixOps', X, Y)
+    .Call(`_MatrixOps_projDecomp`, X, Y)
 }
 
 #' Ordinary Least Squares
@@ -43,7 +43,7 @@ projDecomp <- function(X, Y) {
 #' \item{Resid}{Outcome residuals.}
 #' @export
 fitOLS <- function(y, X) {
-    .Call('_MatrixOps_fitOLS', PACKAGE = 'MatrixOps', y, X)
+    .Call(`_MatrixOps_fitOLS`, y, X)
 }
 
 #' Weighted Least Squares
@@ -66,7 +66,7 @@ fitOLS <- function(y, X) {
 #' \item{Resid}{Outcome residuals.}
 #'
 fitWLS <- function(y, X, w) {
-    .Call('_MatrixOps_fitWLS', PACKAGE = 'MatrixOps', y, X, w)
+    .Call(`_MatrixOps_fitWLS`, y, X, w)
 }
 
 #' Matrix Determinant
@@ -78,7 +78,7 @@ fitWLS <- function(y, X, w) {
 #' @return Scalar. 
 #' @export 
 matDet <- function(A, logDet = FALSE) {
-    .Call('_MatrixOps_matDet', PACKAGE = 'MatrixOps', A, logDet)
+    .Call(`_MatrixOps_matDet`, A, logDet)
 }
 
 #' Matrix Inverse
@@ -89,7 +89,7 @@ matDet <- function(A, logDet = FALSE) {
 #' @return Numeric matrix. 
 #' @export 
 matInv <- function(A) {
-    .Call('_MatrixOps_matInv', PACKAGE = 'MatrixOps', A)
+    .Call(`_MatrixOps_matInv`, A)
 }
 
 #' Matrix Inner Product
@@ -101,7 +101,7 @@ matInv <- function(A) {
 #' @return Numeric matrix.
 #' @export 
 matIP <- function(A, B) {
-    .Call('_MatrixOps_matIP', PACKAGE = 'MatrixOps', A, B)
+    .Call(`_MatrixOps_matIP`, A, B)
 }
 
 #' Matrix Matrix Product
@@ -113,7 +113,7 @@ matIP <- function(A, B) {
 #' @return Numeric matrix.
 #' @export  
 MMP <- function(A, B) {
-    .Call('_MatrixOps_MMP', PACKAGE = 'MatrixOps', A, B)
+    .Call(`_MatrixOps_MMP`, A, B)
 }
 
 #' Matrix Outer Product
@@ -125,7 +125,7 @@ MMP <- function(A, B) {
 #' @return Numeric matrix.
 #' @export 
 matOP <- function(A, B) {
-    .Call('_MatrixOps_matOP', PACKAGE = 'MatrixOps', A, B)
+    .Call(`_MatrixOps_matOP`, A, B)
 }
 
 #' Quadratic Form
@@ -137,7 +137,7 @@ matOP <- function(A, B) {
 #' @return Numeric matrix.
 #' @export 
 matQF <- function(X, A) {
-    .Call('_MatrixOps_matQF', PACKAGE = 'MatrixOps', X, A)
+    .Call(`_MatrixOps_matQF`, X, A)
 }
 
 #' Schur complement
@@ -150,7 +150,7 @@ matQF <- function(X, A) {
 #' @return Numeric matrix. 
 #' @export 
 SchurC <- function(Ibb, Iaa, Iba) {
-    .Call('_MatrixOps_SchurC', PACKAGE = 'MatrixOps', Ibb, Iaa, Iba)
+    .Call(`_MatrixOps_SchurC`, Ibb, Iaa, Iba)
 }
 
 #' Matrix Trace
@@ -161,6 +161,6 @@ SchurC <- function(Ibb, Iaa, Iba) {
 #' @return Scalar.
 #' @export 
 tr <- function(A) {
-    .Call('_MatrixOps_tr', PACKAGE = 'MatrixOps', A)
+    .Call(`_MatrixOps_tr`, A)
 }
 

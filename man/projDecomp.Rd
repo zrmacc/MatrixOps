@@ -7,9 +7,9 @@
 projDecomp(X, Y)
 }
 \arguments{
-\item{NxP}{X Numeric matrix.}
+\item{X}{NxP Numeric matrix.}
 
-\item{NxQ}{Y Numeric matrix.}
+\item{Y}{NxQ Numeric matrix.}
 }
 \value{
 List containing the following:
