@@ -69,6 +69,19 @@ fitWLS <- function(y, X, w) {
     .Call(`_MatrixOps_fitWLS`, y, X, w)
 }
 
+#' Lp Norm
+#'
+#' Calculates the Lp norm of a vector
+#' 
+#' @param x Jx1 numeric vector.
+#' @param p scalar power. 
+#'
+#' @return Scalar norm.
+#' @export 
+norm <- function(x, p = 2L) {
+    .Call(`_MatrixOps_norm`, x, p)
+}
+
 #' Matrix Determinant
 #'
 #' Calculates the determinant of \eqn{A}.
@@ -162,5 +175,18 @@ SchurC <- function(Ibb, Iaa, Iba) {
 #' @export 
 tr <- function(A) {
     .Call(`_MatrixOps_tr`, A)
+}
+
+#' Log Sum Exp
+#'
+#' Calculates the Jx1 log sum exp vector. 
+#' 
+#' @param x Jx1 numeric vector.
+#' @param cum Return the cumulative sum vector?
+#'
+#' @return Jx1 cumulative log sum exp vector. 
+#' @export 
+logSumExp <- function(x, cum = FALSE) {
+    .Call(`_MatrixOps_logSumExp`, x, cum)
 }
 

@@ -3,7 +3,6 @@
 \docType{package}
 \name{MatrixOps}
 \alias{MatrixOps}
-\alias{MatrixOps-package}
 \title{MatrixOps: Matrix Operations}
 \description{
 Package to store matrix operations implemented in RcppArmadillo.

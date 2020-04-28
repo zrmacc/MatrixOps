@@ -1,6 +1,10 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 
+// For debugging: Rcpp::Rcout <<  << std::endl; 
+
+// Validated: 20-04-28
+
 //' Covariance
 //' 
 //' Calculates the correlation between two vectors.
@@ -12,31 +16,41 @@
 //' @return Numeric matrix. 
 // [[Rcpp::export]]
 SEXP matCov(const arma::mat A, const arma::mat B, const bool corMat=false){
-  // Dimensions
+  // Dimensions.
   const int n = A.n_rows;
   const int p = A.n_cols;
   const int q = B.n_cols;
-  // Initialize
+  // Initialize.
   const arma::colvec u = arma::ones(n);
-  arma::mat Za(n,p);
-  Za.zeros();
-  arma::mat Zb(n,q);
-  Zb.zeros();
-  arma::mat R(p,q);
-  R.zeros();
+  arma::mat Za = arma::zeros(n, p);
+  arma::rowvec ma = arma::zeros(1, p);
+  arma::mat Ma = arma::zeros(n, p);
+  arma::mat Zb = arma::zeros(n, q);
+  arma::rowvec mb = arma::zeros(1, q);
+  arma::mat Mb = arma::zeros(n, q);
+  arma::mat R = arma::zeros(p, q);
   // ** Calculation
-  // Center
-  Za = Za-arma::mean(Za,0);
-  Zb = Zb-arma::mean(Zb,0);
+  // Column-wise means.
+  ma = arma::mean(A, 0);
+  mb = arma::mean(B, 0);
+  // Generate centering matrices.
+  for(int i=0; i<n; i++){
+  	Ma.row(i) = ma;
+  	Mb.row(i) = mb;
+  }
+  // Centered matrices.
+  Za = A - Ma;
+  Zb = B - Mb;
+  // Scale, if correlation matrix. 
   if(corMat){
     Za = arma::normalise(Za);
     Zb = arma::normalise(Zb);
   }
-  // Inner product
+  // // Inner product
   if(corMat){
-    R = Za.t()*Zb;
+    R = Za.t() * Zb;
   } else {
-    R = Za.t()*Zb/(n-1);
+    R = (Za.t() * Zb) / (n-1);
   }
   // Output
   return Rcpp::wrap(R);

@@ -14,7 +14,7 @@ SEXP matDet(const arma::mat A, const bool logDet=false){
   double d;
   double s;
   if(logDet){
-    arma::log_det(d,s,A);
+    arma::log_det(d, s, A);
   } else {
     d = arma::det(A);
   }
@@ -44,7 +44,7 @@ SEXP matInv(const arma::mat A){
 //' @export 
 // [[Rcpp::export]]
 SEXP matIP(const arma::mat A, const arma::mat B){
-  const arma::mat AtB = A.t()*B;
+  const arma::mat AtB = A.t() * B;
   return Rcpp::wrap(AtB);
 }
 
@@ -58,7 +58,7 @@ SEXP matIP(const arma::mat A, const arma::mat B){
 //' @export  
 // [[Rcpp::export]]
 SEXP MMP(const arma::mat A, const arma::mat B){
-  const arma::mat C = A*B;
+  const arma::mat C = A * B;
   return Rcpp::wrap(C);
 }
 
@@ -72,7 +72,7 @@ SEXP MMP(const arma::mat A, const arma::mat B){
 //' @export 
 // [[Rcpp::export]]
 SEXP matOP(const arma::mat A, const arma::mat B){
-  const arma::mat ABt = A*B.t();
+  const arma::mat ABt = A * B.t();
   return Rcpp::wrap(ABt);
 }
 
@@ -86,7 +86,7 @@ SEXP matOP(const arma::mat A, const arma::mat B){
 //' @export 
 // [[Rcpp::export]]
 SEXP matQF(const arma::mat X, const arma::mat A){
-  const arma::mat xAx = X.t()*A*X;
+  const arma::mat xAx = X.t() * A * X;
   return Rcpp::wrap(xAx);
 }
 
@@ -102,7 +102,7 @@ SEXP matQF(const arma::mat X, const arma::mat A){
 // [[Rcpp::export]]
 SEXP SchurC(const arma::mat Ibb, const arma::mat Iaa,
             const arma::mat Iba){
-  const arma::mat Ibba = Ibb-Iba*arma::solve(Iaa,Iba.t(),arma::solve_opts::likely_sympd);
+  const arma::mat Ibba = Ibb - Iba * arma::solve(Iaa, Iba.t(), arma::solve_opts::likely_sympd);
   return Rcpp::wrap(Ibba);
 }
 

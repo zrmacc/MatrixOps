@@ -56,6 +56,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// norm
+SEXP norm(const arma::vec x, const int p);
+RcppExport SEXP _MatrixOps_norm(SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const int >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(norm(x, p));
+    return rcpp_result_gen;
+END_RCPP
+}
 // matDet
 SEXP matDet(const arma::mat A, const bool logDet);
 RcppExport SEXP _MatrixOps_matDet(SEXP ASEXP, SEXP logDetSEXP) {
@@ -151,12 +163,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// logSumExp
+SEXP logSumExp(const arma::vec x, const bool cum);
+RcppExport SEXP _MatrixOps_logSumExp(SEXP xSEXP, SEXP cumSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const bool >::type cum(cumSEXP);
+    rcpp_result_gen = Rcpp::wrap(logSumExp(x, cum));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_MatrixOps_matCov", (DL_FUNC) &_MatrixOps_matCov, 3},
     {"_MatrixOps_projDecomp", (DL_FUNC) &_MatrixOps_projDecomp, 2},
     {"_MatrixOps_fitOLS", (DL_FUNC) &_MatrixOps_fitOLS, 2},
     {"_MatrixOps_fitWLS", (DL_FUNC) &_MatrixOps_fitWLS, 3},
+    {"_MatrixOps_norm", (DL_FUNC) &_MatrixOps_norm, 2},
     {"_MatrixOps_matDet", (DL_FUNC) &_MatrixOps_matDet, 2},
     {"_MatrixOps_matInv", (DL_FUNC) &_MatrixOps_matInv, 1},
     {"_MatrixOps_matIP", (DL_FUNC) &_MatrixOps_matIP, 2},
@@ -165,6 +190,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_MatrixOps_matQF", (DL_FUNC) &_MatrixOps_matQF, 2},
     {"_MatrixOps_SchurC", (DL_FUNC) &_MatrixOps_SchurC, 3},
     {"_MatrixOps_tr", (DL_FUNC) &_MatrixOps_tr, 1},
+    {"_MatrixOps_logSumExp", (DL_FUNC) &_MatrixOps_logSumExp, 2},
     {NULL, NULL, 0}
 };
 
