@@ -15,7 +15,7 @@
 //' @export
 //' @return Numeric matrix. 
 // [[Rcpp::export]]
-SEXP matCov(const arma::mat A, const arma::mat B, const bool corMat=false){
+SEXP MatCov(const arma::mat A, const arma::mat B, const bool corMat=false){
   // Dimensions.
   const int n = A.n_rows;
   const int p = A.n_cols;
@@ -54,4 +54,25 @@ SEXP matCov(const arma::mat A, const arma::mat B, const bool corMat=false){
   }
   // Output
   return Rcpp::wrap(R);
+} 
+
+
+//' Eigenvalues of Symmetric Matrix. 
+//' 
+//' Calculates the eigenvalues of a symmetric matrix. 
+//' 
+//' @param A symmetric matrix. 
+//' 
+//' @export
+//' 
+//' @return Numeric vector.
+// [[Rcpp::export]]
+
+SEXP EigSym(const arma::mat A) {
+  
+  arma::vec e;
+  e = arma::eig_sym(A);
+  
+  // Output
+  return Rcpp::wrap(e);
 } 

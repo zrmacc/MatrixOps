@@ -1,16 +1,19 @@
 Package: MatrixOps
-Date: 19/09/02
+Date: 2023-06-13
 Title: Matrix Operations
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: person("Zachary", "McCaw", email = "zmccaw@alumni.harvard.edu", role = c("aut", "cre"))
 Description: Matrix operations implemented through Rcpp. 
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 LinkingTo:
 	Rcpp,
 	RcppArmadillo
-Imports: 
+Imports:
 	Rcpp
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.2
+Suggests:
+	testthat (>= 3.0.0),
+	withr
+Config/testthat/edition: 3

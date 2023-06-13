@@ -6,136 +6,140 @@
 
 using namespace Rcpp;
 
-// matCov
-SEXP matCov(const arma::mat A, const arma::mat B, const bool corMat);
-RcppExport SEXP _MatrixOps_matCov(SEXP ASEXP, SEXP BSEXP, SEXP corMatSEXP) {
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
+// MatCov
+SEXP MatCov(const arma::mat A, const arma::mat B, const bool corMat);
+RcppExport SEXP _MatrixOps_MatCov(SEXP ASEXP, SEXP BSEXP, SEXP corMatSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type B(BSEXP);
     Rcpp::traits::input_parameter< const bool >::type corMat(corMatSEXP);
-    rcpp_result_gen = Rcpp::wrap(matCov(A, B, corMat));
+    rcpp_result_gen = Rcpp::wrap(MatCov(A, B, corMat));
     return rcpp_result_gen;
 END_RCPP
 }
-// projDecomp
-SEXP projDecomp(const arma::mat X, const arma::mat Y);
-RcppExport SEXP _MatrixOps_projDecomp(SEXP XSEXP, SEXP YSEXP) {
+// EigSym
+SEXP EigSym(const arma::mat A);
+RcppExport SEXP _MatrixOps_EigSym(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type X(XSEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(projDecomp(X, Y));
+    Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(EigSym(A));
     return rcpp_result_gen;
 END_RCPP
 }
-// fitOLS
-SEXP fitOLS(const arma::colvec y, const arma::mat X);
-RcppExport SEXP _MatrixOps_fitOLS(SEXP ySEXP, SEXP XSEXP) {
+// FitOLS
+SEXP FitOLS(const arma::colvec y, const arma::mat X);
+RcppExport SEXP _MatrixOps_FitOLS(SEXP ySEXP, SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::colvec >::type y(ySEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type X(XSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitOLS(y, X));
+    rcpp_result_gen = Rcpp::wrap(FitOLS(y, X));
     return rcpp_result_gen;
 END_RCPP
 }
-// fitWLS
-SEXP fitWLS(const arma::vec y, const arma::mat X, const arma::vec w);
-RcppExport SEXP _MatrixOps_fitWLS(SEXP ySEXP, SEXP XSEXP, SEXP wSEXP) {
+// FitWLS
+SEXP FitWLS(const arma::vec y, const arma::mat X, const arma::vec w);
+RcppExport SEXP _MatrixOps_FitWLS(SEXP ySEXP, SEXP XSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::vec >::type y(ySEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type X(XSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type w(wSEXP);
-    rcpp_result_gen = Rcpp::wrap(fitWLS(y, X, w));
+    rcpp_result_gen = Rcpp::wrap(FitWLS(y, X, w));
     return rcpp_result_gen;
 END_RCPP
 }
-// norm
-SEXP norm(const arma::vec x, const int p);
-RcppExport SEXP _MatrixOps_norm(SEXP xSEXP, SEXP pSEXP) {
+// Norm
+SEXP Norm(const arma::vec x, const int p);
+RcppExport SEXP _MatrixOps_Norm(SEXP xSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< const int >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(norm(x, p));
+    rcpp_result_gen = Rcpp::wrap(Norm(x, p));
     return rcpp_result_gen;
 END_RCPP
 }
-// matDet
-SEXP matDet(const arma::mat A, const bool logDet);
-RcppExport SEXP _MatrixOps_matDet(SEXP ASEXP, SEXP logDetSEXP) {
+// MatDet
+SEXP MatDet(const arma::mat A, const bool logDet);
+RcppExport SEXP _MatrixOps_MatDet(SEXP ASEXP, SEXP logDetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
     Rcpp::traits::input_parameter< const bool >::type logDet(logDetSEXP);
-    rcpp_result_gen = Rcpp::wrap(matDet(A, logDet));
+    rcpp_result_gen = Rcpp::wrap(MatDet(A, logDet));
     return rcpp_result_gen;
 END_RCPP
 }
-// matInv
-SEXP matInv(const arma::mat A);
-RcppExport SEXP _MatrixOps_matInv(SEXP ASEXP) {
+// MatInv
+SEXP MatInv(const arma::mat A);
+RcppExport SEXP _MatrixOps_MatInv(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(matInv(A));
+    rcpp_result_gen = Rcpp::wrap(MatInv(A));
     return rcpp_result_gen;
 END_RCPP
 }
-// matIP
-SEXP matIP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _MatrixOps_matIP(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
-    Rcpp::traits::input_parameter< const arma::mat >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(matIP(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
-// MMP
-SEXP MMP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _MatrixOps_MMP(SEXP ASEXP, SEXP BSEXP) {
+// MatIP
+SEXP MatIP(const arma::mat A, const arma::mat B);
+RcppExport SEXP _MatrixOps_MatIP(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(MMP(A, B));
+    rcpp_result_gen = Rcpp::wrap(MatIP(A, B));
     return rcpp_result_gen;
 END_RCPP
 }
-// matOP
-SEXP matOP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _MatrixOps_matOP(SEXP ASEXP, SEXP BSEXP) {
+// MatProd
+SEXP MatProd(const arma::mat A, const arma::mat B);
+RcppExport SEXP _MatrixOps_MatProd(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(matOP(A, B));
+    rcpp_result_gen = Rcpp::wrap(MatProd(A, B));
     return rcpp_result_gen;
 END_RCPP
 }
-// matQF
-SEXP matQF(const arma::mat X, const arma::mat A);
-RcppExport SEXP _MatrixOps_matQF(SEXP XSEXP, SEXP ASEXP) {
+// MatOP
+SEXP MatOP(const arma::mat A, const arma::mat B);
+RcppExport SEXP _MatrixOps_MatOP(SEXP ASEXP, SEXP BSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const arma::mat >::type B(BSEXP);
+    rcpp_result_gen = Rcpp::wrap(MatOP(A, B));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MatQF
+SEXP MatQF(const arma::mat X, const arma::mat A);
+RcppExport SEXP _MatrixOps_MatQF(SEXP XSEXP, SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type X(XSEXP);
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(matQF(X, A));
+    rcpp_result_gen = Rcpp::wrap(MatQF(X, A));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -152,45 +156,45 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// tr
-SEXP tr(const arma::mat A);
-RcppExport SEXP _MatrixOps_tr(SEXP ASEXP) {
+// Tr
+SEXP Tr(const arma::mat A);
+RcppExport SEXP _MatrixOps_Tr(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(tr(A));
+    rcpp_result_gen = Rcpp::wrap(Tr(A));
     return rcpp_result_gen;
 END_RCPP
 }
-// logSumExp
-SEXP logSumExp(const arma::vec x, const bool cum);
-RcppExport SEXP _MatrixOps_logSumExp(SEXP xSEXP, SEXP cumSEXP) {
+// LogSumExp
+SEXP LogSumExp(const arma::vec x, const bool cum);
+RcppExport SEXP _MatrixOps_LogSumExp(SEXP xSEXP, SEXP cumSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< const bool >::type cum(cumSEXP);
-    rcpp_result_gen = Rcpp::wrap(logSumExp(x, cum));
+    rcpp_result_gen = Rcpp::wrap(LogSumExp(x, cum));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_MatrixOps_matCov", (DL_FUNC) &_MatrixOps_matCov, 3},
-    {"_MatrixOps_projDecomp", (DL_FUNC) &_MatrixOps_projDecomp, 2},
-    {"_MatrixOps_fitOLS", (DL_FUNC) &_MatrixOps_fitOLS, 2},
-    {"_MatrixOps_fitWLS", (DL_FUNC) &_MatrixOps_fitWLS, 3},
-    {"_MatrixOps_norm", (DL_FUNC) &_MatrixOps_norm, 2},
-    {"_MatrixOps_matDet", (DL_FUNC) &_MatrixOps_matDet, 2},
-    {"_MatrixOps_matInv", (DL_FUNC) &_MatrixOps_matInv, 1},
-    {"_MatrixOps_matIP", (DL_FUNC) &_MatrixOps_matIP, 2},
-    {"_MatrixOps_MMP", (DL_FUNC) &_MatrixOps_MMP, 2},
-    {"_MatrixOps_matOP", (DL_FUNC) &_MatrixOps_matOP, 2},
-    {"_MatrixOps_matQF", (DL_FUNC) &_MatrixOps_matQF, 2},
+    {"_MatrixOps_MatCov", (DL_FUNC) &_MatrixOps_MatCov, 3},
+    {"_MatrixOps_EigSym", (DL_FUNC) &_MatrixOps_EigSym, 1},
+    {"_MatrixOps_FitOLS", (DL_FUNC) &_MatrixOps_FitOLS, 2},
+    {"_MatrixOps_FitWLS", (DL_FUNC) &_MatrixOps_FitWLS, 3},
+    {"_MatrixOps_Norm", (DL_FUNC) &_MatrixOps_Norm, 2},
+    {"_MatrixOps_MatDet", (DL_FUNC) &_MatrixOps_MatDet, 2},
+    {"_MatrixOps_MatInv", (DL_FUNC) &_MatrixOps_MatInv, 1},
+    {"_MatrixOps_MatIP", (DL_FUNC) &_MatrixOps_MatIP, 2},
+    {"_MatrixOps_MatProd", (DL_FUNC) &_MatrixOps_MatProd, 2},
+    {"_MatrixOps_MatOP", (DL_FUNC) &_MatrixOps_MatOP, 2},
+    {"_MatrixOps_MatQF", (DL_FUNC) &_MatrixOps_MatQF, 2},
     {"_MatrixOps_SchurC", (DL_FUNC) &_MatrixOps_SchurC, 3},
-    {"_MatrixOps_tr", (DL_FUNC) &_MatrixOps_tr, 1},
-    {"_MatrixOps_logSumExp", (DL_FUNC) &_MatrixOps_logSumExp, 2},
+    {"_MatrixOps_Tr", (DL_FUNC) &_MatrixOps_Tr, 1},
+    {"_MatrixOps_LogSumExp", (DL_FUNC) &_MatrixOps_LogSumExp, 2},
     {NULL, NULL, 0}
 };
 

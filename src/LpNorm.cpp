@@ -11,7 +11,7 @@
 //' @return Scalar norm.
 //' @export 
 // [[Rcpp::export]]
-SEXP norm(const arma::vec x, const int p=2){
+SEXP Norm(const arma::vec x, const int p=2){
 	// Norm
 	const double L = arma::norm(x,p);
 	// Export

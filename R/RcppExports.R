@@ -10,23 +10,21 @@
 #' @param corMat Return correlation matrix?
 #' @export
 #' @return Numeric matrix. 
-matCov <- function(A, B, corMat = FALSE) {
-    .Call(`_MatrixOps_matCov`, A, B, corMat)
+MatCov <- function(A, B, corMat = FALSE) {
+    .Call(`_MatrixOps_MatCov`, A, B, corMat)
 }
 
-#' Projection Decomposition
+#' Eigenvalues of Symmetric Matrix. 
 #' 
-#' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
-#' and the projection onto the orthogonal complement of the image. 
+#' Calculates the eigenvalues of a symmetric matrix. 
 #' 
-#' @param X NxP Numeric matrix.
-#' @param Y NxQ Numeric matrix.
-#' @return List containing the following:
-#' \item{Coord}{Coordinates of the projection w.r.t. X.}
-#' \item{Para}{Projection onto the image of X.}
-#' \item{Ortho}{Projection onto the orthogonal complement.}
-projDecomp <- function(X, Y) {
-    .Call(`_MatrixOps_projDecomp`, X, Y)
+#' @param A symmetric matrix. 
+#' 
+#' @export
+#' 
+#' @return Numeric vector.
+EigSym <- function(A) {
+    .Call(`_MatrixOps_EigSym`, A)
 }
 
 #' Ordinary Least Squares
@@ -36,14 +34,10 @@ projDecomp <- function(X, Y) {
 #' @param y Nx1 Numeric vector.
 #' @param X NxP Numeric matrix.
 #' 
-#' @return List containing the following:
-#' \item{Beta}{Regression coefficient.}
-#' \item{V}{Outcome variance.}
-#' \item{Ibb}{Information matrix for beta.}
-#' \item{Resid}{Outcome residuals.}
+#' @return List of model components.
 #' @export
-fitOLS <- function(y, X) {
-    .Call(`_MatrixOps_fitOLS`, y, X)
+FitOLS <- function(y, X) {
+    .Call(`_MatrixOps_FitOLS`, y, X)
 }
 
 #' Weighted Least Squares
@@ -57,16 +51,11 @@ fitOLS <- function(y, X) {
 #' @param y Nx1 Response vector.
 #' @param X NxP Design matrix.
 #' @param w Nx1 Weight vector.
-#' @export
 #' 
-#' @return List containing the following:
-#' \item{Beta}{Regression coefficient.}
-#' \item{V}{Outcome variance.}
-#' \item{Ibb}{Information matrix for beta.}
-#' \item{Resid}{Outcome residuals.}
-#'
-fitWLS <- function(y, X, w) {
-    .Call(`_MatrixOps_fitWLS`, y, X, w)
+#' @return List of model components.
+#' @export
+FitWLS <- function(y, X, w) {
+    .Call(`_MatrixOps_FitWLS`, y, X, w)
 }
 
 #' Lp Norm
@@ -78,8 +67,8 @@ fitWLS <- function(y, X, w) {
 #'
 #' @return Scalar norm.
 #' @export 
-norm <- function(x, p = 2L) {
-    .Call(`_MatrixOps_norm`, x, p)
+Norm <- function(x, p = 2L) {
+    .Call(`_MatrixOps_Norm`, x, p)
 }
 
 #' Matrix Determinant
@@ -90,8 +79,8 @@ norm <- function(x, p = 2L) {
 #' @param logDet Return the logarithm of the determinant? 
 #' @return Scalar. 
 #' @export 
-matDet <- function(A, logDet = FALSE) {
-    .Call(`_MatrixOps_matDet`, A, logDet)
+MatDet <- function(A, logDet = FALSE) {
+    .Call(`_MatrixOps_MatDet`, A, logDet)
 }
 
 #' Matrix Inverse
@@ -101,8 +90,8 @@ matDet <- function(A, logDet = FALSE) {
 #' @param A Numeric matrix.
 #' @return Numeric matrix. 
 #' @export 
-matInv <- function(A) {
-    .Call(`_MatrixOps_matInv`, A)
+MatInv <- function(A) {
+    .Call(`_MatrixOps_MatInv`, A)
 }
 
 #' Matrix Inner Product
@@ -113,8 +102,8 @@ matInv <- function(A) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 #' @export 
-matIP <- function(A, B) {
-    .Call(`_MatrixOps_matIP`, A, B)
+MatIP <- function(A, B) {
+    .Call(`_MatrixOps_MatIP`, A, B)
 }
 
 #' Matrix Matrix Product
@@ -125,8 +114,8 @@ matIP <- function(A, B) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 #' @export  
-MMP <- function(A, B) {
-    .Call(`_MatrixOps_MMP`, A, B)
+MatProd <- function(A, B) {
+    .Call(`_MatrixOps_MatProd`, A, B)
 }
 
 #' Matrix Outer Product
@@ -137,8 +126,8 @@ MMP <- function(A, B) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 #' @export 
-matOP <- function(A, B) {
-    .Call(`_MatrixOps_matOP`, A, B)
+MatOP <- function(A, B) {
+    .Call(`_MatrixOps_MatOP`, A, B)
 }
 
 #' Quadratic Form
@@ -149,8 +138,8 @@ matOP <- function(A, B) {
 #' @param A Numeric matrix.
 #' @return Numeric matrix.
 #' @export 
-matQF <- function(X, A) {
-    .Call(`_MatrixOps_matQF`, X, A)
+MatQF <- function(X, A) {
+    .Call(`_MatrixOps_MatQF`, X, A)
 }
 
 #' Schur complement
@@ -173,8 +162,8 @@ SchurC <- function(Ibb, Iaa, Iba) {
 #' @param A Numeric matrix.
 #' @return Scalar.
 #' @export 
-tr <- function(A) {
-    .Call(`_MatrixOps_tr`, A)
+Tr <- function(A) {
+    .Call(`_MatrixOps_Tr`, A)
 }
 
 #' Log Sum Exp
@@ -186,7 +175,7 @@ tr <- function(A) {
 #'
 #' @return Jx1 cumulative log sum exp vector. 
 #' @export 
-logSumExp <- function(x, cum = FALSE) {
-    .Call(`_MatrixOps_logSumExp`, x, cum)
+LogSumExp <- function(x, cum = FALSE) {
+    .Call(`_MatrixOps_LogSumExp`, x, cum)
 }
 

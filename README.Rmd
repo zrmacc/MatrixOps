@@ -1,0 +1,31 @@
+---
+title: "README"
+author: "Zachary McCaw"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    keep_md: TRUE
+--- 
+
+# Matrix Operations
+
+Zachary R. McCaw <br>
+Updated: 2023-06-13
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+
+## Linear regression
+
+```{r, cahce=TRUE}
+set.seed(1010)
+n <- 1e4
+x <- data.matrix(stats::rnorm(n))
+y <- stats::rnorm(n)
+microbenchmark::microbenchmark(
+  stats::lm(y ~ x),
+  MatrixOps::FitOLS(y, x)
+)
+```

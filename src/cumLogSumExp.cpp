@@ -13,7 +13,7 @@
 //' @return Jx1 cumulative log sum exp vector. 
 //' @export 
 // [[Rcpp::export]]
-SEXP logSumExp(const arma::vec x, const bool cum=false){
+SEXP LogSumExp(const arma::vec x, const bool cum=false){
 	// Dimensions
 	const int J = x.n_elem;
 	const arma::vec y = arma::sort(x,"descend");

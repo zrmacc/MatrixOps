@@ -10,7 +10,7 @@
 //' @return Scalar. 
 //' @export 
 // [[Rcpp::export]]
-SEXP matDet(const arma::mat A, const bool logDet=false){
+SEXP MatDet(const arma::mat A, const bool logDet=false){
   double d;
   double s;
   if(logDet){
@@ -29,7 +29,7 @@ SEXP matDet(const arma::mat A, const bool logDet=false){
 //' @return Numeric matrix. 
 //' @export 
 // [[Rcpp::export]]
-SEXP matInv(const arma::mat A){
+SEXP MatInv(const arma::mat A){
   const arma::mat Ai = arma::pinv(A);
   return Rcpp::wrap(Ai);
 }
@@ -43,7 +43,7 @@ SEXP matInv(const arma::mat A){
 //' @return Numeric matrix.
 //' @export 
 // [[Rcpp::export]]
-SEXP matIP(const arma::mat A, const arma::mat B){
+SEXP MatIP(const arma::mat A, const arma::mat B){
   const arma::mat AtB = A.t() * B;
   return Rcpp::wrap(AtB);
 }
@@ -57,7 +57,7 @@ SEXP matIP(const arma::mat A, const arma::mat B){
 //' @return Numeric matrix.
 //' @export  
 // [[Rcpp::export]]
-SEXP MMP(const arma::mat A, const arma::mat B){
+SEXP MatProd(const arma::mat A, const arma::mat B){
   const arma::mat C = A * B;
   return Rcpp::wrap(C);
 }
@@ -71,7 +71,7 @@ SEXP MMP(const arma::mat A, const arma::mat B){
 //' @return Numeric matrix.
 //' @export 
 // [[Rcpp::export]]
-SEXP matOP(const arma::mat A, const arma::mat B){
+SEXP MatOP(const arma::mat A, const arma::mat B){
   const arma::mat ABt = A * B.t();
   return Rcpp::wrap(ABt);
 }
@@ -85,7 +85,7 @@ SEXP matOP(const arma::mat A, const arma::mat B){
 //' @return Numeric matrix.
 //' @export 
 // [[Rcpp::export]]
-SEXP matQF(const arma::mat X, const arma::mat A){
+SEXP MatQF(const arma::mat X, const arma::mat A){
   const arma::mat xAx = X.t() * A * X;
   return Rcpp::wrap(xAx);
 }
@@ -114,7 +114,7 @@ SEXP SchurC(const arma::mat Ibb, const arma::mat Iaa,
 //' @return Scalar.
 //' @export 
 // [[Rcpp::export]]
-SEXP tr(const arma::mat A){
+SEXP Tr(const arma::mat A){
   const double t = arma::trace(A);
   return Rcpp::wrap(t);
 }

@@ -1,28 +1,6 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 
-// Validated: 20-04-28
-
-//' Projection Decomposition
-//' 
-//' Decomposes matrix \eqn{Y} into the projection onto the image of \eqn{X},
-//' and the projection onto the orthogonal complement of the image. 
-//' 
-//' @param X NxP Numeric matrix.
-//' @param Y NxQ Numeric matrix.
-//' @return List containing the following:
-//' \item{Coord}{Coordinates of the projection w.r.t. X.}
-//' \item{Para}{Projection onto the image of X.}
-//' \item{Ortho}{Projection onto the orthogonal complement.}
-// [[Rcpp::export]]
-
-SEXP projDecomp(const arma::mat X, const arma::mat Y){
-  const arma::mat B = arma::solve(X.t() * X, X.t() * Y, arma::solve_opts::likely_sympd);
-  const arma::mat P = X * B;
-  const arma::mat Q = Y - P;
-  return Rcpp::List::create(Rcpp::Named("Coord") = B, Rcpp::Named("Para") = P, Rcpp::Named("Ortho") = Q);
-}
-
 //' Ordinary Least Squares
 //' 
 //' Fits the standard OLS model.
@@ -30,36 +8,47 @@ SEXP projDecomp(const arma::mat X, const arma::mat Y){
 //' @param y Nx1 Numeric vector.
 //' @param X NxP Numeric matrix.
 //' 
-//' @return List containing the following:
-//' \item{Beta}{Regression coefficient.}
-//' \item{V}{Outcome variance.}
-//' \item{Ibb}{Information matrix for beta.}
-//' \item{Resid}{Outcome residuals.}
+//' @return List of model components.
 //' @export
 // [[Rcpp::export]]
-SEXP fitOLS(const arma::colvec y, const arma::mat X){
-  // Observations
+SEXP FitOLS(
+    const arma::colvec y,
+    const arma::mat X
+){
+  // Observations.
   const int n = y.size();
   
-  // Estimated parameters
+  // Estimated parameters.
   const int p = X.n_cols;
   
-  // Information
+  // Information.
   const arma::mat A = X.t() * X;
   
-  // Estimate beta
+  // Estimate beta.
   const arma::vec b = arma::solve(A, X.t() * y, arma::solve_opts::likely_sympd);
   
-  // Calculate residuals
-  const arma::vec eps = (y - X * b);
+  // Calculate residuals.
+  const arma::vec yhat = X * b;
+  const arma::vec eps = (y - yhat);
   
-  // Scale
+  // Scale.
   const double v = arma::as_scalar((eps.t() * eps) / (n-p));
   
-  // Information
+  // Information.
   const arma::mat Ibb = A / v;
-  return Rcpp::List::create(Rcpp::Named("Beta") = b, Rcpp::Named("V") = v, Rcpp::Named("Ibb") = Ibb, Rcpp::Named("Resid") = eps);
+  const arma::mat invIbb = arma::pinv(Ibb);
+  const arma::vec se = arma::sqrt(invIbb.diag());
+
+  return Rcpp::List::create(
+    Rcpp::Named("beta") = b,
+    Rcpp::Named("info") = Ibb,
+    Rcpp::Named("resid") = eps,
+    Rcpp::Named("se") = se,
+    Rcpp::Named("sigma2") = v,
+    Rcpp::Named("yhat") = yhat
+  );
 }
+
 
 //' Weighted Least Squares
 //' 
@@ -72,16 +61,11 @@ SEXP fitOLS(const arma::colvec y, const arma::mat X){
 //' @param y Nx1 Response vector.
 //' @param X NxP Design matrix.
 //' @param w Nx1 Weight vector.
-//' @export
 //' 
-//' @return List containing the following:
-//' \item{Beta}{Regression coefficient.}
-//' \item{V}{Outcome variance.}
-//' \item{Ibb}{Information matrix for beta.}
-//' \item{Resid}{Outcome residuals.}
-//'
+//' @return List of model components.
+//' @export
 // [[Rcpp::export]]
-SEXP fitWLS(const arma::vec y, const arma::mat X, const arma::vec w){
+SEXP FitWLS(const arma::vec y, const arma::mat X, const arma::vec w){
   // Dimensions
   const int n = X.n_rows;
   const int p = X.n_cols;
@@ -105,16 +89,27 @@ SEXP fitWLS(const arma::vec y, const arma::mat X, const arma::vec w){
   // Estimate beta
   const arma::vec b = arma::solve(A, u, arma::solve_opts::likely_sympd);
   
-  // Calculate residuals
-  const arma::vec eps = (y - X * b);
+  // Calculate residuals.
+  const arma::vec yhat = X * b;
+  const arma::vec eps = (y - yhat);
   
   // Scale
   for(int i=0; i<n; i++){
-    qf += eps(i) * w(i) * w(i) * eps(i);
+    qf += eps(i) * w(i) * eps(i);
   }
   const double v = qf / (n-p);
   
-  // // Information
+  // Information
   const arma::mat Ibb = A / v;
-  return Rcpp::List::create(Rcpp::Named("Beta") = b, Rcpp::Named("V") = v, Rcpp::Named("Ibb") = Ibb, Rcpp::Named("Resid") = eps);
+  const arma::mat invIbb = arma::pinv(Ibb);
+  const arma::vec se = arma::sqrt(invIbb.diag());
+
+  return Rcpp::List::create(
+    Rcpp::Named("beta") = b, 
+    Rcpp::Named("info") = Ibb, 
+    Rcpp::Named("resid") = eps,
+    Rcpp::Named("se") = se,
+    Rcpp::Named("sigma2") = v,
+    Rcpp::Named("yhat") = yhat
+  );
 }
