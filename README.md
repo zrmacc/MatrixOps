@@ -1,12 +1,3 @@
----
-title: "README"
-author: "Zachary McCaw"
-date: "2023-06-13"
-output: 
-  html_document: 
-    keep_md: TRUE
---- 
-
 # Matrix Operations
 
 Zachary R. McCaw <br>
